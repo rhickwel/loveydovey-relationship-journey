@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <title>Lock Screen | L&V Relationship Journey Website</title>
+
+    <style>
+        .wallpaper { filter: blur(3px) brightness(20%); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="wallpaper"></div>
+
+        <div class="passcode-wrapper">
+            <div>
+                <h1 id="pinMessage">Enter PIN</h1>
+                <p id="messageElement">Your pin contains 8 digits.</p>
+                <div class="pin-display" id="pinDisplay"></div>
+            </div>
+
+            <form action="">
+                <ul class="passcode-button-list">
+                    <li><button class="number-btn" type="button" data-value="1">1</button></li>
+                    <li><button class="number-btn" type="button" data-value="2">2</button></li>
+                    <li><button class="number-btn" type="button" data-value="3">3</button></li>
+                    
+                    <li><button class="number-btn" type="button" data-value="4">4</button></li>
+                    <li><button class="number-btn" type="button" data-value="5">5</button></li>
+                    <li><button class="number-btn" type="button" data-value="6">6</button></li>
+                    
+                    <li><button class="number-btn" type="button" data-value="7">7</button></li>
+                    <li><button class="number-btn" type="button" data-value="8">8</button></li>
+                    <li><button class="number-btn" type="button" data-value="9">9</button></li>
+
+                    <li><button type="button" data-value="backspace" id="backspace-btn"><img src="../assets/img/icons/backspace.png" alt="backspace"></button></li>
+                    <li><button class="number-btn" type="button" data-value="0">0</button></li>
+                    <li><button type="button" data-value="ok" id="submit-btn" disabled>OK</button></li>
+                </ul>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const pinDisplay = document.getElementById('pinDisplay');
+        const pinMessage = document.getElementById('pinMessage');
+        let enteredPin = '';
+        const correctPasscode = '10112424';
+
+        document.querySelectorAll('.passcode-button-list button').forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.getAttribute('data-value');
+                
+                if (value === 'backspace') {
+                    enteredPin = enteredPin.slice(0, -1);
+                } else {
+                    if (enteredPin.length < 8) {
+                        enteredPin += value;
+                    }
+                }
+                
+                if (enteredPin.length === 8) {
+                    if (enteredPin === correctPasscode) {
+                        window.location.href = 'home-screen.html';
+                    } else {
+                        pinMessage.textContent = 'Incorrect PIN entered';
+                    }
+
+                    enteredPin = ''; // Clear the entered pin after the attempt
+                    pinDisplay.textContent = '';
+                } 
+
+                pinDisplay.textContent = enteredPin.padEnd(4);
+            });
+        });
+    </script>
+</body>
+</html>
